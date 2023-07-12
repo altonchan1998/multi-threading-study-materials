@@ -31,7 +31,7 @@ import java.util.List;
  * Joining Threads
  * https://www.udemy.com/java-multithreading-concurrency-performance-optimization
  */
-public class Main {
+public class Main02 {
     public static void main(String[] args) throws InterruptedException {
         List<Long> inputNumbers = Arrays.asList(100000000L, 3435L, 35435L, 2324L, 4656L, 23L, 5556L);
 
@@ -42,12 +42,15 @@ public class Main {
         }
 
         for (Thread thread : threads) {
-            thread.setDaemon(true);
+            thread.setDaemon(true); // The main thread execute code after the max duration defined but won't end the application
             thread.start();
         }
 
         for (Thread thread : threads) {
-            thread.join(2000);
+            thread.join(2000); // The main thread need to wait the joined thread to die before execute the code afterwards.
+            if (thread.isAlive()) {
+                thread.interrupt();
+            }
         }
 
         for (int i = 0; i < inputNumbers.size(); i++) {
@@ -79,6 +82,7 @@ public class Main {
             BigInteger tempResult = BigInteger.ONE;
 
             for (long i = n; i > 0; i--) {
+                if (Thread.currentThread().isInterrupted()) break;
                 tempResult = tempResult.multiply(new BigInteger((Long.toString(i))));
             }
             return tempResult;

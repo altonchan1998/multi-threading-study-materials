@@ -47,10 +47,13 @@ public class Main {
     }
 
     public static class SharedClass {
-        private int x = 0;
-        private int y = 0;
+        private volatile int x = 0;
+        private volatile int y = 0;
 
         public void increment() {
+            // As the compiler will do the rearrangement for optimizing performance, we cannot guarantee x++ would be executed before y++, in this case, y++ > x++ will be possible
+            // declaring x and y with volatile can ensure the code before accessing the volatile variable will be executed before the access instruction (read/write)
+            // in this case, x++ must be executed before y++
             x++;
             y++;
         }

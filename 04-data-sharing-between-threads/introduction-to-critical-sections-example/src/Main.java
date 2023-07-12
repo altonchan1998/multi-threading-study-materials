@@ -76,15 +76,24 @@ public class Main {
     private static class InventoryCounter {
         private int items = 0;
 
-        public void increment() {
+        // *** items++ IS NOT atomic operation, it includes 3 actions:
+        // 1. currentVal <- items = 0
+        // 2. newVal <- currentVal + 1 = 1
+        // 3. items <- newVal = 1 ***
+        // therefore, if increment() method accessed by 2 threads at same time, items can be overwritten and the ++/-- operation of other thread might be ignored
+        // it is important to take care of the data sharing in multi-threading operation.
+        // solution: adding synchronized keyword to both increment and decrement method
+        // when accessing one synchronized function, all synchronized functions of this object will be locked and no threads can access them.
+        // it avoids the non-atomic operation get interrupted -> no ++/-- operation can be ignored.
+        public synchronized void increment() {
             items++;
         }
 
-        public void decrement() {
+        public synchronized void decrement() {
             items--;
         }
 
-        public int getItems() {
+        public synchronized int getItems() {
             return items;
         }
     }
