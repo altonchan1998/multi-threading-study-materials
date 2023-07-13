@@ -47,4 +47,13 @@
    - solutions:
    1. synchronization of methods -> only 1 thread able to access the shared variable at anytime -> no race possible but with a performance penalty
    2. declare share variable with volatile -> ensure the code come before an access to volatile variable will be executed before the access instruction
-# Every shared variable which modified by at least 1 thread should be guareed by a synchronized block or declared with volatile
+## ***Every shared variable which modified by at least 1 thread should be guareed by a synchronized block or declared with volatile
+## Fine-grained Locking Strategy
+   - separate locks for every single shared resources
+   - may lead to dead lock issue
+## Coarse-Grained Locking Strategy
+   - one single lock for all shared resource
+   - e.g. synchronized method -> one lock share for all method declared
+   - simple but may thus have performance penalty
+## Dead Lock
+   - every threads are waiting for other thread to release the lock to do the next move
