@@ -57,3 +57,58 @@
    - simple but may thus have performance penalty
 ## Dead Lock
    - every threads are waiting for other thread to release the lock to do the next move
+   - conditions:
+   - mutual exclusion - only 1 thread can have exclusive access to a resource
+   - hold and wait - at least 1 thread is holding a resource and wait for another resource
+   - non-preemptive allocation: a resource is released only after the thread is done using it
+   - circular wait - a chain of at least 2 threads each one is holding one resource and waiting for another resource
+   - solution: 
+   - use a strict order on lock acquisition (recommended), easy for small number of locks
+   - deadlock detection - watchdog (restart when deadlock occur)
+   - thread interruption (cannot with synchronized)
+   - tryLock operations (cannot with synchronized)
+
+## ReentrantLock
+   - require explicit locking and unlocking
+   - need to be careful with unlocking the lock
+   - use try finally to make sure the lock will be unlocked
+   - more control over the lock and more lock operations allowed
+   - new ReentrantLock(true) to make the lock fair (fairly be acquired by the threads)
+   - lockInterruptibly() -> interrupt the thread which locked the lock and lock it in current thread
+   - used for watchdog for deadlock detection and recovery
+   - used for waking up slept threads to do clean and close the application gracefully
+   - tryLock()
+   - return true and acquires lock if available
+   - return false and won't sleep if lock is unavailable
+   - used when suspending a thread on wait lock (lock() method) is unacceptable
+
+## ReentrantReadWriteLock
+   - Unlike synchronized lock and reentrantLock, it allows multi readers to access a shared resource concurrently
+   - used when read operations are predominant
+   - used when read operation are not fast
+   - used when mutual exclusion of reading threads impacts the performance negatively
+   - mutual exclusion between readers and writers by 
+     - no thread can acquire read lock if write lock is acquired 
+     - no thread can acquire write lock if at least one thread holds a read lock
+
+## Semaphore
+  - used to restrict the no. of users to a particular resource or group of resource
+  - while locks only allow 1 user per resource
+  - it can restrict any given no. of users to a resource
+  - it can be released by any thread even those thread not acquired it
+  - inter-thread communication for producer consumer
+  - new Semaphore(0) means there is no permit at beginning
+  - semaphore.release() will create a permit even there is 0 permit at the first place
+
+## lock.condition()
+  - condition.await() - unlock the lock and sleep unit condition.signal()
+  - condition.signal() - wake up only one of the threads which waiting for the condition variable
+  - for the thread that wakes up, it has to reacquire the lock associated with the condition variable
+  - if no thread is waiting for the condition variable, signal() won't do anything
+  - condition.signalAll() - wake up all threads that waiting for the condition variable
+
+##  Object.wait() / Object.notify() / Object.notifyAll()
+  - wait() - cause the current thread to sleep, until other thread wake it up
+  - notify - wake up only one of the threads that waiting for the object 
+  - Object.notifyAll() - wake up all the threads that waiting for the object
+  - to call these methods, we need to acquire the monitor of that object by using synchronized on that object

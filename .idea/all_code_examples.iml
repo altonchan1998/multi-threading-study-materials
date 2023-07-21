@@ -12,6 +12,9 @@
       <sourceFolder url="file://$MODULE_DIR$/04-data-sharing-between-threads/data-races-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/04-data-sharing-between-threads/introduction-to-critical-sections-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/05-concurrency-challenges/application-metrics-example/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/05-concurrency-challenges/deadlocks-example/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/06-advanced-locking/read-write-lock-example/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/07-inter-thread-communication/wait-notify-example/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
