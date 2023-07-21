@@ -112,3 +112,13 @@
   - notify - wake up only one of the threads that waiting for the object 
   - Object.notifyAll() - wake up all the threads that waiting for the object
   - to call these methods, we need to acquire the monitor of that object by using synchronized on that object
+
+## IO bound application
+  - cpu is idle when waiting for IO operation done
+  - can use thread-per-task threading model to improve
+    - allow processing thousands of tasks concurrently
+    - issues:
+      - limited no. of threads
+      - too many threads -> application crash
+      - too few threads -> poor performance
+      - may cause thrashing (os spend much time on switching context) if one task involved many IO operations
